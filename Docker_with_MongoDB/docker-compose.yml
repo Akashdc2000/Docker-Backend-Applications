@@ -1,0 +1,81 @@
+# version: '3.8'
+# services:
+
+#   mongo:
+#     image: mongo
+#     restart: always
+
+#     ports:
+#       - "27017:27017"
+
+
+
+#   app:
+#     build: .
+    
+#     ports:
+#       - "1234:1234"
+#     volumes:
+#       - ./:/app/
+#       - /app/node_modules
+
+
+
+
+version: '3'
+
+services:
+  app:
+    build: .
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - '1234:1234'
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+    driver: local
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  # # PostgreSQL pgAdmin panel accessible at http://localhost:16543/
+  # pgadmin-compose:
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: "placeholder@example.com"
+  #     PGADMIN_DEFAULT_PASSWORD: "fakepassword123!"
+  #   ports:
+  #     - "16543:80"
+  #   depends_on:
+  #     - postgres

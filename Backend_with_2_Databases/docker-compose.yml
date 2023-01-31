@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+
+  postgres:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=root
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database-seed.sql:/docker-entrypoint-initdb.d/database-seed.sql
+      - test_volume:/var/lib/root/data
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+  app:
+    build: .
+    
+    ports:
+      - "2222:2222"
+    volumes:
+      - ./:/app/
+      - /app/node_modules
+
+volumes:
+  mongo-data:
+    driver: local
+  test_volume:
+    {}
